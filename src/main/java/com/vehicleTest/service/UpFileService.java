@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +30,7 @@ public class UpFileService {
         return upFileDAO.selectByFile(filename);
     }
 
-    public UpFile getFileByUser(String user){
+    public List<UpFile> getFileByUser(String user){
         return upFileDAO.selectByUser(user);
     }
 

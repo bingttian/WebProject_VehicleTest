@@ -30,7 +30,7 @@ public class UserService {
         return userDAO.selectByName(username);
     }
 
-    public Map<String,Object> register(String username, String password){
+    public Map<String,Object> register(String username, String password,String telephone,String address){
         Map<String, Object> map = new HashMap<String, Object>();
         if(username ==""){
             map.put("username_error","用户名不能为空");
@@ -38,6 +38,19 @@ public class UserService {
         }
         if(password == ""){
             map.put("psw_error","密码不能为空");
+            return  map;
+        }
+        if(telephone == ""){
+            map.put("tel_error","电话不能为空");
+            return  map;
+        }
+        if(address == ""){
+            map.put("address_error","地址不能为空");
+            return  map;
+        }
+
+        if(telephone.length() != 11 || telephone.charAt(0)!='1'){
+            map.put("tel_error","电话输入有误");
             return  map;
         }
 
@@ -52,6 +65,8 @@ public class UserService {
         user.setName(username);
         user.setSalt(UUID.randomUUID().toString().substring(0,5));
         user.setPassword(VehicleTestUtil.MD5(password+user.getSalt()));
+        user.setAddress(address);
+        user.setTelephone(telephone);
         userDAO.addUser(user);
 
         map.put("msg","注册成功");
@@ -86,5 +101,32 @@ public class UserService {
 
         map.put("msg", "登录成功");
         return map;
+    }
+
+    public String changeUsername(String id,String username){
+        if(userDAO.selectByName(username)!=null){
+            return "用户名已被注册";
+        }
+        User user=userDAO.selectById(Integer.valueOf(id));
+        user.setName(username);
+        userDAO.updateUsername(user);
+        return "用户名修改成功！";
+    }
+
+    public String changeTelephone(String id,String telephone){
+        User user=userDAO.selectById(Integer.valueOf(id));
+        if(telephone.length() != 11 || telephone.charAt(0)!='1'){
+            return "电话输入有误";
+        }
+        user.setTelephone(telephone);
+        userDAO.updateTelephone(user);
+        return "电话修改成功！";
+    }
+
+    public String changeAddress(String id,String address){
+        User user=userDAO.selectById(Integer.valueOf(id));
+        user.setAddress(address);
+        userDAO.updateAddress(user);
+        return "地址修改成功！";
     }
 }

@@ -36,12 +36,13 @@ public class RegisterController {
     public String  reg(Model model, @RequestParam("username") String username,
                        @RequestParam("password") String password,
                        @RequestParam("password1") String password1,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, @RequestParam("telephone") String telephone,
+                       @RequestParam("address") String address) {
         if(!password1.equals(password)){
             model.addAttribute("psw_error","输入密码不一致");
             return "reg";
         }
-        Map res=userService.register(username,password);
+        Map res=userService.register(username,password,telephone,address);
         if (res.get("msg")!= null){
             int id=userService.getUser(username).getId();
             Cookie cookie = new Cookie("id", String.format("%d",id));
@@ -54,6 +55,10 @@ public class RegisterController {
                 model.addAttribute("username_error", res.get("username_error"));
             if(res.get("psw_error")!=null)
                 model.addAttribute("psw_error", res.get("psw_error"));
+            if(res.get("tel_error")!=null)
+                model.addAttribute("tel_error", res.get("tel_error"));
+            if(res.get("address_error")!=null)
+                model.addAttribute("address_error", res.get("address_error"));
                 return "reg";
         }
     }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title>汽车检测线远程智能故障诊断系统</title>
 <link href="css/style2.css" rel="stylesheet" type="text/css" />
 <!--   引入jQuery -->
     <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
@@ -38,6 +38,16 @@
     <label for="password1">确认密码:</label>
     <input type="password" id="password1" class="required" name="password1" />
      </div>
+    <div class="int">
+        <label for="password1">电话:</label>
+        <input type="text" class="required" name="telephone" />
+        <span class="error1">$!{tel_error}</span>
+    </div>
+    <div class="int">
+        <label for="password1">地址:</label>
+        <input type="text" id="address" class="required" name="address" />
+        <span class="error1">$!{address_error}</span>
+    </div>
   <div class="sub">
 
     <input type="button" id="regist" value="注册" onclick="regist()"/>

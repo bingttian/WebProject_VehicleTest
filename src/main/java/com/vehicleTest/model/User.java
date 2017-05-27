@@ -8,6 +8,8 @@ public class User {
     private String username;
     private String password;
     private String salt;
+    private String telephone;
+    private String address;
 
     public User() {
 
@@ -43,5 +45,21 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

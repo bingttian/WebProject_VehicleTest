@@ -3,6 +3,8 @@ package com.vehicleTest.DAO;
 import com.vehicleTest.model.UpFile;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * Created by zyl on 2017/5/10.
  */
@@ -10,16 +12,16 @@ import org.apache.ibatis.annotations.*;
 public interface UpFileDAO {
     String TABLE_NAME = "up_file";
 
-    String INSERT_FIELDS = "  username , filename , zhouzhong, zhidong, description, up_time ";
+    String INSERT_FIELDS = "  username , filename , zhouzhong, zhidong, description, up_time, result ";
 
     String SELECT_FIELDS = INSERT_FIELDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") Values (#{username}, #{filename}, #{zhouzhong}" +
-            ", #{zhidong}, #{description}, #{up_time})"})
+            ", #{zhidong}, #{description}, #{up_time}, #{result})"})
     int addfile(UpFile upFile);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where username=#{name}"})
-    UpFile selectByUser(String name);
+    List<UpFile> selectByUser(String name);
 
     //filename是唯一的
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where filename=#{filename}"})

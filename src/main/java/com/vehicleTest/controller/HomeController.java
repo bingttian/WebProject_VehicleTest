@@ -1,9 +1,10 @@
 package com.vehicleTest.controller;
 
-import com.vehicleTest.Util.VehicleTestUtil;
+import com.vehicleTest.model.UpFile;
 import com.vehicleTest.model.User;
 import com.vehicleTest.service.UpFileService;
 import com.vehicleTest.service.UserService;
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,5 +98,54 @@ public class HomeController {
     public String top(Model model, @CookieValue("id") String id ){
         showUser(model,id);
         return "top";
+    }
+
+    @RequestMapping(path = {"/user"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String user(Model model, @CookieValue("id") String id ){
+        User user=userService.getUser(Integer.parseInt(id));
+        model.addAttribute("username",user.getName());
+        model.addAttribute("telephone",user.getTelephone());
+        model.addAttribute("address",user.getAddress());
+        return "user";
+    }
+
+    @RequestMapping(path = {"/history"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String history(Model model, @CookieValue("id") String id ){
+        User user=userService.getUser(Integer.parseInt(id));
+        List<UpFile> upFiles=upFileService.getFileByUser(user.getName());    //获取用户所有上传记录的集合
+        Map<String,Object> data =new HashedMap();
+        for(int i=0;i<upFiles.size();i++){
+            Map<String,Object> line =new HashedMap();
+            SimpleDateFormat sdf = new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
+            line.put("upDate",sdf.format(upFiles.get(i).getUp_time()));
+            line.put("description",upFiles.get(i).getDescription());
+            line.put("result",upFiles.get(i).getResult());
+            data.put("line"+i,line);
+        }
+        model.addAttribute("data",data);
+        return "history";
+    }
+
+    @RequestMapping(path = {"/change"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String change(Model model, @CookieValue("id") String id,
+                         @RequestParam("username") String username,@RequestParam("telephone") String telephone,
+                         @RequestParam("address") String address){
+        if(username !=""){
+            String msg=userService.changeUsername(id,username);
+            model.addAttribute("msg_name",msg);
+        }
+        if(telephone !=""){
+            String msg=userService.changeTelephone(id,telephone);
+            model.addAttribute("msg_tel",msg);
+        }
+        if(address !=""){
+            String msg=userService.changeAddress(id,address);
+            model.addAttribute("msg_address",msg);
+        }
+        User user=userService.getUser(Integer.parseInt(id));
+        model.addAttribute("username",user.getName());
+        model.addAttribute("telephone",user.getTelephone());
+        model.addAttribute("address",user.getAddress());
+        return "user";
     }
 }

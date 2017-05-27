@@ -3,7 +3,7 @@ font-family: Arial;
 font-weight:bold;
  color:#000;
  display:inline;
- background-image: url(../img/1.jpg) ;
+ background-image: url(../imges/1.jpg) ;
 	background-attachment:fixed;
 	background-repeat:no-repeat;
 	background-size:cover;
@@ -40,7 +40,6 @@ form input{margin-left:10px;  }
 form .sub {
 	padding-left:140px;
 }
-
 
 
 

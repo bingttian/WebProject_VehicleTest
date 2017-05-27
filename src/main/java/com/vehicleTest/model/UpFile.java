@@ -13,6 +13,7 @@ public class UpFile {
     private  String description;
     private  String zhouzhong;
     private  String zhidong;
+    private  String result;
 
     public String getUsername() {
         return username;
@@ -62,4 +63,11 @@ public class UpFile {
         this.zhidong = zhidong;
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 }
